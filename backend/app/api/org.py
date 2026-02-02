@@ -96,13 +96,35 @@ def _maybe_auto_provision_agent(session: Session, *, emp: Employee, actor_employ
         return
     if emp.status != "active":
         return
-    if not emp.notify_enabled:
-        return
     if emp.openclaw_session_key:
         return
 
     client = OpenClawClient.from_env()
     if client is None:
+        return
+
+    # FULL IMPLEMENTATION: ensure a dedicated OpenClaw agent profile exists per employee.
+    try:
+        from app.integrations.openclaw_agents import ensure_full_agent_profile
+
+        info = ensure_full_agent_profile(
+            client=client,
+            employee_id=int(emp.id),
+            employee_name=emp.name,
+        )
+        emp.openclaw_agent_id = info["agent_id"]
+        session.add(emp)
+        session.flush()
+    except Exception as e:
+        log_activity(
+            session,
+            actor_employee_id=actor_employee_id,
+            entity_type="employee",
+            entity_id=emp.id,
+            verb="agent_profile_failed",
+            payload={"error": f"{type(e).__name__}: {e}"},
+        )
+        # Do not block employee creation on provisioning.
         return
 
     label = f"employee:{emp.id}:{emp.name}"
@@ -112,7 +134,7 @@ def _maybe_auto_provision_agent(session: Session, *, emp: Employee, actor_employ
             {
                 "task": _default_agent_prompt(emp),
                 "label": label,
-                "agentId": "main",
+                "agentId": emp.openclaw_agent_id,
                 "cleanup": "keep",
                 "runTimeoutSeconds": 600,
             },
