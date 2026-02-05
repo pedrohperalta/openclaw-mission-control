@@ -24,6 +24,8 @@ type BoardDraft = {
 
 type BoardSummary = {
   id: string;
+  name: string;
+  slug: string;
   board_type?: string;
   objective?: string | null;
   success_metrics?: Record<string, unknown> | null;
