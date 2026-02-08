@@ -9,7 +9,9 @@ const isClerkEnabled = () =>
   );
 
 // Public routes must include Clerk sign-in paths to avoid redirect loops.
-const isPublicRoute = createRouteMatcher(["/sign-in(.*)"]);
+// Also keep top-level UI routes like /activity public so the app can render a signed-out state
+// (the page itself shows a SignIn button; API routes remain protected elsewhere).
+const isPublicRoute = createRouteMatcher(["/sign-in(.*)", "/activity(.*)"]);
 
 export default isClerkEnabled()
   ? clerkMiddleware(async (auth, req) => {
