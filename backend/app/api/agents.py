@@ -5,10 +5,9 @@ from __future__ import annotations
 import asyncio
 import json
 import re
-from collections.abc import AsyncIterator, Sequence
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
@@ -64,8 +63,11 @@ from app.services.organizations import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import AsyncIterator, Sequence
+
     from sqlalchemy.sql.elements import ColumnElement
     from sqlmodel.ext.asyncio.session import AsyncSession
+    from sqlmodel.sql.expression import SelectOfScalar
 
     from app.models.users import User
 
@@ -230,6 +232,16 @@ async def get_gateway_main_session_keys(session: AsyncSession) -> set[str]:
 def to_agent_read(agent: Agent, main_session_keys: set[str]) -> AgentRead:
     """Convert an `Agent` model into its API read representation."""
     return _to_agent_read(agent, main_session_keys)
+
+
+def _coerce_agent_items(items: Sequence[Any]) -> list[Agent]:
+    agents: list[Agent] = []
+    for item in items:
+        if not isinstance(item, Agent):
+            msg = "Expected Agent items from paginated query"
+            raise TypeError(msg)
+        agents.append(item)
+    return agents
 
 
 async def _find_gateway_for_main_session(
@@ -777,7 +789,7 @@ async def _provision_updated_agent(
         ) from exc
 
 
-def _heartbeat_lookup_statement(payload: AgentHeartbeatCreate) -> object:
+def _heartbeat_lookup_statement(payload: AgentHeartbeatCreate) -> SelectOfScalar[Agent]:
     statement = Agent.objects.filter_by(name=payload.name).statement
     if payload.board_id is not None:
         statement = statement.where(Agent.board_id == payload.board_id)
@@ -973,7 +985,7 @@ async def list_agents(
     statement = statement.order_by(col(Agent.created_at).desc())
 
     def _transform(items: Sequence[Any]) -> Sequence[Any]:
-        agents = cast(Sequence[Agent], items)
+        agents = _coerce_agent_items(items)
         return [
             _to_agent_read(_with_computed_status(agent), main_session_keys)
             for agent in agents

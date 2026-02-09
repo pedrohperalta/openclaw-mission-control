@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 from uuid import UUID, uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -235,9 +235,7 @@ def _update_agent_heartbeat(
 ) -> None:
     raw = agent.heartbeat_config
     heartbeat: dict[str, Any] = (
-        cast(dict[str, Any], dict(raw))
-        if isinstance(raw, dict)
-        else cast(dict[str, Any], DEFAULT_HEARTBEAT_CONFIG.copy())
+        dict(raw) if isinstance(raw, dict) else DEFAULT_HEARTBEAT_CONFIG.copy()
     )
     heartbeat["every"] = payload.every
     if payload.target is not None:

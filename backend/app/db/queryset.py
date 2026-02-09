@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, TypeVar, cast
 
 from sqlmodel import select
 
@@ -22,7 +22,11 @@ class QuerySet(Generic[ModelT]):
 
     def filter(self, *criteria: object) -> QuerySet[ModelT]:
         """Return a new queryset with additional SQL criteria."""
-        return replace(self, statement=self.statement.where(*criteria))
+        statement = cast(
+            "SelectOfScalar[ModelT]",
+            cast(Any, self.statement).where(*criteria),
+        )
+        return replace(self, statement=statement)
 
     def where(self, *criteria: object) -> QuerySet[ModelT]:
         """Alias for `filter` to mirror SQLAlchemy naming."""
@@ -35,7 +39,11 @@ class QuerySet(Generic[ModelT]):
 
     def order_by(self, *ordering: object) -> QuerySet[ModelT]:
         """Return a new queryset with ordering clauses applied."""
-        return replace(self, statement=self.statement.order_by(*ordering))
+        statement = cast(
+            "SelectOfScalar[ModelT]",
+            cast(Any, self.statement).order_by(*ordering),
+        )
+        return replace(self, statement=statement)
 
     def limit(self, value: int) -> QuerySet[ModelT]:
         """Return a new queryset with a SQL row limit."""

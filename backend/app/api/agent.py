@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Sequence
-from typing import TYPE_CHECKING, Any, cast
-from uuid import UUID
+from typing import TYPE_CHECKING, Any
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlmodel import SQLModel, col, select
@@ -75,6 +73,9 @@ from app.services.task_dependencies import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+    from uuid import UUID
+
     from sqlmodel.ext.asyncio.session import AsyncSession
 
     from app.models.activity_events import ActivityEvent
@@ -95,6 +96,16 @@ BOARD_ID_QUERY = Query(default=None)
 TASK_STATUS_QUERY = Query(default=None, alias="status")
 IS_CHAT_QUERY = Query(default=None)
 APPROVAL_STATUS_QUERY = Query(default=None, alias="status")
+
+
+def _coerce_agent_items(items: Sequence[Any]) -> list[Agent]:
+    agents: list[Agent] = []
+    for item in items:
+        if not isinstance(item, Agent):
+            msg = "Expected Agent items from paginated query"
+            raise TypeError(msg)
+        agents.append(item)
+    return agents
 
 
 def _gateway_agent_id(agent: Agent) -> str:
@@ -248,7 +259,7 @@ async def list_agents(
     statement = statement.order_by(col(Agent.created_at).desc())
 
     def _transform(items: Sequence[Any]) -> Sequence[Any]:
-        agents = cast(Sequence[Agent], items)
+        agents = _coerce_agent_items(items)
         return [
             agents_api.to_agent_read(
                 agents_api.with_computed_status(agent),
@@ -275,7 +286,7 @@ async def list_tasks(
         unassigned=filters.unassigned,
         board=board,
         session=session,
-        actor=_actor(agent_ctx),
+        _actor=_actor(agent_ctx),
     )
 
 
@@ -290,8 +301,8 @@ async def create_task(
     _guard_board_access(agent_ctx, board)
     if not agent_ctx.agent.is_board_lead:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
-    data = payload.model_dump()
-    depends_on_task_ids = cast(list[UUID], data.pop("depends_on_task_ids", []) or [])
+    data = payload.model_dump(exclude={"depends_on_task_ids"})
+    depends_on_task_ids = list(payload.depends_on_task_ids)
 
     task = Task.model_validate(data)
     task.board_id = board.id
@@ -456,7 +467,7 @@ async def list_board_memory(
         is_chat=is_chat,
         board=board,
         session=session,
-        actor=_actor(agent_ctx),
+        _actor=_actor(agent_ctx),
     )
 
 
@@ -493,7 +504,7 @@ async def list_approvals(
         status_filter=status_filter,
         board=board,
         session=session,
-        actor=_actor(agent_ctx),
+        _actor=_actor(agent_ctx),
     )
 
 
@@ -510,7 +521,7 @@ async def create_approval(
         payload=payload,
         board=board,
         session=session,
-        actor=_actor(agent_ctx),
+        _actor=_actor(agent_ctx),
     )
 
 

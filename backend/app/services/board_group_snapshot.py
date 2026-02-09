@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import TYPE_CHECKING
 from uuid import UUID
 
 from sqlalchemy import case, func
@@ -21,18 +22,21 @@ from app.schemas.view_models import (
     BoardGroupTaskSummary,
 )
 
+if TYPE_CHECKING:
+    from sqlalchemy.sql.elements import ColumnElement
+
 _STATUS_ORDER = {"in_progress": 0, "review": 1, "inbox": 2, "done": 3}
 _PRIORITY_ORDER = {"high": 0, "medium": 1, "low": 2}
 _RUNTIME_TYPE_REFERENCES = (UUID, AsyncSession)
 
 
-def _status_weight_expr() -> object:
+def _status_weight_expr() -> ColumnElement[int]:
     """Return a SQL expression that sorts task statuses by configured order."""
     whens = [(col(Task.status) == key, weight) for key, weight in _STATUS_ORDER.items()]
     return case(*whens, else_=99)
 
 
-def _priority_weight_expr() -> object:
+def _priority_weight_expr() -> ColumnElement[int]:
     """Return a SQL expression that sorts task priorities by configured order."""
     whens = [
         (col(Task.priority) == key, weight)

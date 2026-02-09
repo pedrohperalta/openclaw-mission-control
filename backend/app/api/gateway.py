@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
@@ -54,6 +55,20 @@ def _query_to_resolve_input(params: GatewayResolveQuery) -> GatewayResolveQuery:
 
 
 RESOLVE_INPUT_DEP = Depends(_query_to_resolve_input)
+
+
+def _as_object_list(value: object) -> list[object]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return value
+    if isinstance(value, (tuple, set)):
+        return list(value)
+    if isinstance(value, (str, bytes, dict)):
+        return []
+    if isinstance(value, Iterable):
+        return list(value)
+    return []
 
 
 async def _resolve_gateway(
@@ -138,9 +153,9 @@ async def gateways_status(
     try:
         sessions = await openclaw_call("sessions.list", config=config)
         if isinstance(sessions, dict):
-            sessions_list = list(sessions.get("sessions") or [])
+            sessions_list = _as_object_list(sessions.get("sessions"))
         else:
-            sessions_list = list(sessions or [])
+            sessions_list = _as_object_list(sessions)
         main_session_entry: object | None = None
         main_session_error: str | None = None
         if main_session:
@@ -190,9 +205,9 @@ async def list_gateway_sessions(
             status_code=status.HTTP_502_BAD_GATEWAY, detail=str(exc),
         ) from exc
     if isinstance(sessions, dict):
-        sessions_list = list(sessions.get("sessions") or [])
+        sessions_list = _as_object_list(sessions.get("sessions"))
     else:
-        sessions_list = list(sessions or [])
+        sessions_list = _as_object_list(sessions)
 
     main_session_entry: object | None = None
     if main_session:
@@ -215,9 +230,9 @@ async def list_gateway_sessions(
 async def _list_sessions(config: GatewayClientConfig) -> list[dict[str, object]]:
     sessions = await openclaw_call("sessions.list", config=config)
     if isinstance(sessions, dict):
-        raw_items = sessions.get("sessions") or []
+        raw_items = _as_object_list(sessions.get("sessions"))
     else:
-        raw_items = sessions or []
+        raw_items = _as_object_list(sessions)
     return [
         item
         for item in raw_items
@@ -311,7 +326,7 @@ async def get_session_history(
         ) from exc
     if isinstance(history, dict) and isinstance(history.get("messages"), list):
         return GatewaySessionHistoryResponse(history=history["messages"])
-    return GatewaySessionHistoryResponse(history=list(history or []))
+    return GatewaySessionHistoryResponse(history=_as_object_list(history))
 
 
 @router.post("/sessions/{session_id}/message", response_model=OkResponse)

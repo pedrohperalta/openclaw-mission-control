@@ -8,7 +8,7 @@ import re
 from contextlib import suppress
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 from uuid import uuid4
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined, select_autoescape
@@ -452,7 +452,7 @@ async def _gateway_agent_files_index(
                     continue
                 name = item.get("name")
                 if isinstance(name, str) and name:
-                    index[name] = cast(dict[str, Any], item)
+                    index[name] = dict(item)
             return index
     except OpenClawGatewayError:
         pass

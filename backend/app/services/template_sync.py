@@ -167,6 +167,9 @@ class _GatewayBackoff:
                 self._delay_s = min(self._delay_s * 2.0, self._max_delay_s)
                 continue
             self.reset()
+            if value is None:
+                msg = "Gateway retry produced no value without an error"
+                raise RuntimeError(msg)
             return value
 
 

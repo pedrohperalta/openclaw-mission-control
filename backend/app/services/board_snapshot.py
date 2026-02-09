@@ -148,7 +148,7 @@ async def build_board_snapshot(session: AsyncSession, board: Board) -> BoardSnap
                 select(func.count(col(Approval.id)))
                 .where(col(Approval.board_id) == board.id)
                 .where(col(Approval.status) == "pending"),
-            ),
+            )
         ).one(),
     )
 

@@ -5,9 +5,8 @@ from __future__ import annotations
 import asyncio
 import json
 from collections import deque
-from collections.abc import Sequence
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
@@ -35,7 +34,7 @@ from app.services.organizations import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import AsyncIterator
+    from collections.abc import AsyncIterator, Sequence
 
     from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -43,6 +42,7 @@ router = APIRouter(prefix="/activity", tags=["activity"])
 
 SSE_SEEN_MAX = 2000
 STREAM_POLL_SECONDS = 2
+TASK_COMMENT_ROW_LEN = 4
 SESSION_DEP = Depends(get_session)
 ACTOR_DEP = Depends(require_admin_or_agent)
 ORG_MEMBER_DEP = Depends(require_org_member)
@@ -100,6 +100,26 @@ def _feed_item(
     )
 
 
+def _coerce_task_comment_rows(
+    items: Sequence[Any],
+) -> list[tuple[ActivityEvent, Task, Board, Agent | None]]:
+    rows: list[tuple[ActivityEvent, Task, Board, Agent | None]] = []
+    for item in items:
+        if (
+            isinstance(item, tuple)
+            and len(item) == TASK_COMMENT_ROW_LEN
+            and isinstance(item[0], ActivityEvent)
+            and isinstance(item[1], Task)
+            and isinstance(item[2], Board)
+            and (isinstance(item[3], Agent) or item[3] is None)
+        ):
+            rows.append((item[0], item[1], item[2], item[3]))
+            continue
+        msg = "Expected (ActivityEvent, Task, Board, Agent | None) rows"
+        raise TypeError(msg)
+    return rows
+
+
 async def _fetch_task_comment_events(
     session: AsyncSession,
     since: datetime,
@@ -118,10 +138,7 @@ async def _fetch_task_comment_events(
     )
     if board_id is not None:
         statement = statement.where(col(Task.board_id) == board_id)
-    return cast(
-        Sequence[tuple[ActivityEvent, Task, Board, Agent | None]],
-        list(await session.exec(statement)),
-    )
+    return _coerce_task_comment_rows(list(await session.exec(statement)))
 
 
 @router.get("", response_model=DefaultLimitOffsetPage[ActivityEventRead])
@@ -179,7 +196,7 @@ async def list_task_comment_feed(
         statement = statement.where(col(Task.id).is_(None))
 
     def _transform(items: Sequence[Any]) -> Sequence[Any]:
-        rows = cast(Sequence[tuple[ActivityEvent, Task, Board, Agent | None]], items)
+        rows = _coerce_task_comment_rows(items)
         return [
             _feed_item(event, task, board, agent)
             for event, task, board, agent in rows

@@ -3,12 +3,15 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 from sqlalchemy import false
 from sqlmodel import SQLModel, col
 
 from app.db.queryset import QuerySet, qs
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 ModelT = TypeVar("ModelT", bound=SQLModel)
 
@@ -49,7 +52,7 @@ class ModelManager(Generic[ModelT]):
 
     def by_ids(
         self,
-        obj_ids: list[object] | tuple[object, ...] | set[object],
+        obj_ids: Iterable[object],
     ) -> QuerySet[ModelT]:
         """Return queryset filtered by a set/list/tuple of identifiers."""
         return self.by_field_in(self.id_field, obj_ids)
@@ -61,7 +64,7 @@ class ModelManager(Generic[ModelT]):
     def by_field_in(
         self,
         field_name: str,
-        values: list[object] | tuple[object, ...] | set[object],
+        values: Iterable[object],
     ) -> QuerySet[ModelT]:
         """Return queryset filtered by `field IN values` semantics."""
         seq = tuple(values)

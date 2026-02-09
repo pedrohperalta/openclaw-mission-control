@@ -8,19 +8,69 @@ import os
 import sys
 import time
 from datetime import datetime, timezone
+from types import TracebackType
 from typing import Any
 
 from app.core.config import settings
 from app.core.version import APP_NAME, APP_VERSION
 
 TRACE_LEVEL = 5
+EXC_INFO_TUPLE_SIZE = 3
 logging.addLevelName(TRACE_LEVEL, "TRACE")
+
+
+def _coerce_exc_info(
+    value: object,
+) -> (
+    bool
+    | tuple[type[BaseException], BaseException, TracebackType | None]
+    | tuple[None, None, None]
+    | BaseException
+    | None
+):
+    if value is None:
+        return None
+    if isinstance(value, bool | BaseException):
+        return value
+    if not isinstance(value, tuple) or len(value) != EXC_INFO_TUPLE_SIZE:
+        return None
+    first, second, third = value
+    if first is None and second is None and third is None:
+        return (None, None, None)
+    if (
+        isinstance(first, type)
+        and issubclass(first, BaseException)
+        and isinstance(second, BaseException)
+        and (isinstance(third, TracebackType) or third is None)
+    ):
+        return (first, second, third)
+    return None
+
+
+def _coerce_extra(value: object) -> dict[str, object] | None:
+    if not isinstance(value, dict):
+        return None
+    return {str(key): item for key, item in value.items()}
 
 
 def _trace(self: logging.Logger, message: str, *args: object, **kwargs: object) -> None:
     """Log a TRACE-level message when the logger is TRACE-enabled."""
     if self.isEnabledFor(TRACE_LEVEL):
-        self._log(TRACE_LEVEL, message, args, **kwargs)
+        exc_info = _coerce_exc_info(kwargs.get("exc_info"))
+        stack_info_raw = kwargs.get("stack_info")
+        stack_info = stack_info_raw if isinstance(stack_info_raw, bool) else False
+        stacklevel_raw = kwargs.get("stacklevel")
+        stacklevel = stacklevel_raw if isinstance(stacklevel_raw, int) else 1
+        extra = _coerce_extra(kwargs.get("extra"))
+        self.log(
+            TRACE_LEVEL,
+            message,
+            *args,
+            exc_info=exc_info,
+            stack_info=stack_info,
+            stacklevel=stacklevel,
+            extra=extra,
+        )
 
 
 logging.Logger.trace = _trace  # type: ignore[attr-defined]
