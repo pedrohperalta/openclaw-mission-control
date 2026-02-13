@@ -4,7 +4,8 @@ set -euo pipefail
 
 SCRIPT_NAME="$(basename "$0")"
 REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
-LOG_DIR="$REPO_ROOT/.install-logs"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}"
+LOG_DIR="$STATE_DIR/openclaw-mission-control-install"
 
 LINUX_DISTRO=""
 PKG_MANAGER=""
