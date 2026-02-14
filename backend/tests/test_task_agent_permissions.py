@@ -400,8 +400,8 @@ async def test_non_lead_agent_moves_task_to_review_and_task_unassigns() -> None:
             assert updated.in_progress_at is None
 
             refreshed_task = (
-                (await session.exec(select(Task).where(col(Task.id) == task_id))).first()
-            )
+                await session.exec(select(Task).where(col(Task.id) == task_id))
+            ).first()
             assert refreshed_task is not None
             assert refreshed_task.previous_in_progress_at == in_progress_at
     finally:

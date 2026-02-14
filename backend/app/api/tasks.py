@@ -2206,6 +2206,7 @@ async def _apply_admin_task_rules(
             update.task.in_progress_at = None
         elif status_value == "review":
             update.task.previous_in_progress_at = update.task.in_progress_at
+            update.task.assigned_agent_id = None
             update.task.in_progress_at = None
         elif status_value == "in_progress":
             update.task.in_progress_at = utcnow()
