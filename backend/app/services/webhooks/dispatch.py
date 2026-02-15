@@ -37,10 +37,7 @@ def _build_payload_preview(payload_value: object) -> str:
 
 
 def _payload_preview(payload_value: object) -> str:
-    preview = _build_payload_preview(payload_value)
-    if len(preview) <= 1600:
-        return preview
-    return f"{preview[:1597]}..."
+    return _build_payload_preview(payload_value)
 
 
 def _webhook_message(

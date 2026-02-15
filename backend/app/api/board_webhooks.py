@@ -44,7 +44,6 @@ SESSION_DEP = Depends(get_session)
 BOARD_USER_READ_DEP = Depends(get_board_for_user_read)
 BOARD_USER_WRITE_DEP = Depends(get_board_for_user_write)
 BOARD_OR_404_DEP = Depends(get_board_or_404)
-PAYLOAD_PREVIEW_MAX_CHARS = 1600
 
 
 def _webhook_endpoint_path(board_id: UUID, webhook_id: UUID) -> str:
@@ -177,9 +176,7 @@ def _payload_preview(
             preview = json.dumps(value, indent=2, ensure_ascii=True)
         except TypeError:
             preview = str(value)
-    if len(preview) <= PAYLOAD_PREVIEW_MAX_CHARS:
-        return preview
-    return f"{preview[: PAYLOAD_PREVIEW_MAX_CHARS - 3]}..."
+    return preview
 
 
 def _webhook_memory_content(
