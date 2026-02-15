@@ -36,17 +36,13 @@ def _build_payload_preview(payload_value: object) -> str:
         return str(payload_value)
 
 
-def _payload_preview(payload_value: object) -> str:
-    return _build_payload_preview(payload_value)
-
-
 def _webhook_message(
     *,
     board: Board,
     webhook: BoardWebhook,
     payload: BoardWebhookPayload,
 ) -> str:
-    preview = _payload_preview(payload.payload)
+    preview = _build_payload_preview(payload.payload)
     return (
         "WEBHOOK EVENT RECEIVED\n"
         f"Board: {board.name}\n"
