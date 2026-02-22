@@ -201,6 +201,24 @@ async def test_admin_service_maps_gateway_transport_errors(
 
 
 @pytest.mark.asyncio
+async def test_admin_service_maps_gateway_scope_errors_with_guidance(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    async def _fake_check(config: GatewayConfig, *, minimum_version: str | None = None) -> object:
+        _ = (config, minimum_version)
+        raise OpenClawGatewayError("missing scope: operator.read")
+
+    monkeypatch.setattr(admin_service, "check_gateway_runtime_compatibility", _fake_check)
+
+    service = GatewayAdminLifecycleService(session=object())  # type: ignore[arg-type]
+    with pytest.raises(HTTPException) as exc_info:
+        await service.assert_gateway_runtime_compatible(url="ws://gateway.example/ws", token=None)
+
+    assert exc_info.value.status_code == 502
+    assert "missing required scope `operator.read`" in str(exc_info.value.detail)
+
+
+@pytest.mark.asyncio
 async def test_gateway_status_reports_incompatible_version(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -224,6 +242,28 @@ async def test_gateway_status_reports_incompatible_version(
 
     assert response.connected is False
     assert response.error == "Gateway version 2026.1.0 is not supported."
+
+
+@pytest.mark.asyncio
+async def test_gateway_status_surfaces_scope_error_guidance(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    async def _fake_check(config: GatewayConfig, *, minimum_version: str | None = None) -> object:
+        _ = (config, minimum_version)
+        raise OpenClawGatewayError("missing scope: operator.read")
+
+    monkeypatch.setattr(session_service, "check_gateway_runtime_compatibility", _fake_check)
+
+    service = GatewaySessionService(session=object())  # type: ignore[arg-type]
+    response = await service.get_status(
+        params=GatewayResolveQuery(gateway_url="ws://gateway.example/ws"),
+        organization_id=uuid4(),
+        user=None,
+    )
+
+    assert response.connected is False
+    assert response.error is not None
+    assert "missing required scope `operator.read`" in response.error
 
 
 @pytest.mark.asyncio

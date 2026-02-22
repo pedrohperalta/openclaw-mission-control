@@ -12,5 +12,6 @@ export interface GatewayCreate {
   name: string;
   url: string;
   workspace_root: string;
+  disable_device_pairing?: boolean;
   token?: string | null;
 }

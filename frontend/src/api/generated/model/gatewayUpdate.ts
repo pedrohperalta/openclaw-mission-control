@@ -13,4 +13,5 @@ export interface GatewayUpdate {
   url?: string | null;
   token?: string | null;
   workspace_root?: string | null;
+  disable_device_pairing?: boolean | null;
 }

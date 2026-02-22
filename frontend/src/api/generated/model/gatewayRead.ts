@@ -12,6 +12,7 @@ export interface GatewayRead {
   name: string;
   url: string;
   workspace_root: string;
+  disable_device_pairing?: boolean;
   id: string;
   organization_id: string;
   token?: string | null;

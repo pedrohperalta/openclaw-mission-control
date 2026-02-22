@@ -17,6 +17,7 @@ class GatewayBase(SQLModel):
     name: str
     url: str
     workspace_root: str
+    disable_device_pairing: bool = False
 
 
 class GatewayCreate(GatewayBase):
@@ -43,6 +44,7 @@ class GatewayUpdate(SQLModel):
     url: str | None = None
     token: str | None = None
     workspace_root: str | None = None
+    disable_device_pairing: bool | None = None
 
     @field_validator("token", mode="before")
     @classmethod
