@@ -30,6 +30,7 @@ export default function NewGatewayPage() {
   const [gatewayToken, setGatewayToken] = useState("");
   const [disableDevicePairing, setDisableDevicePairing] = useState(false);
   const [workspaceRoot, setWorkspaceRoot] = useState(DEFAULT_WORKSPACE_ROOT);
+  const [allowInsecureTls, setAllowInsecureTls] = useState(false);
 
   const [gatewayUrlError, setGatewayUrlError] = useState<string | null>(null);
   const [gatewayCheckStatus, setGatewayCheckStatus] =
@@ -87,6 +88,7 @@ export default function NewGatewayPage() {
       gatewayUrl,
       gatewayToken,
       gatewayDisableDevicePairing: disableDevicePairing,
+      gatewayAllowInsecureTls: allowInsecureTls,
     });
     setGatewayCheckStatus(ok ? "success" : "error");
     setGatewayCheckMessage(message);
@@ -102,6 +104,7 @@ export default function NewGatewayPage() {
         token: gatewayToken.trim() || null,
         disable_device_pairing: disableDevicePairing,
         workspace_root: workspaceRoot.trim(),
+        allow_insecure_tls: allowInsecureTls,
       },
     });
   };
@@ -123,6 +126,7 @@ export default function NewGatewayPage() {
         gatewayToken={gatewayToken}
         disableDevicePairing={disableDevicePairing}
         workspaceRoot={workspaceRoot}
+        allowInsecureTls={allowInsecureTls}
         gatewayUrlError={gatewayUrlError}
         gatewayCheckStatus={gatewayCheckStatus}
         gatewayCheckMessage={gatewayCheckMessage}
@@ -153,6 +157,11 @@ export default function NewGatewayPage() {
           setGatewayCheckMessage(null);
         }}
         onWorkspaceRootChange={setWorkspaceRoot}
+        onAllowInsecureTlsChange={(next) => {
+          setAllowInsecureTls(next);
+          setGatewayCheckStatus("idle");
+          setGatewayCheckMessage(null);
+        }}
       />
     </DashboardPageLayout>
   );

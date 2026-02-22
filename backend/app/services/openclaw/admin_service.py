@@ -171,6 +171,7 @@ class GatewayAdminLifecycleService(OpenClawDBService):
         config = GatewayClientConfig(
             url=gateway.url,
             token=gateway.token,
+            allow_insecure_tls=gateway.allow_insecure_tls,
             disable_device_pairing=gateway.disable_device_pairing,
         )
         target_id = GatewayAgentIdentity.openclaw_agent_id(gateway)
@@ -188,12 +189,14 @@ class GatewayAdminLifecycleService(OpenClawDBService):
         *,
         url: str,
         token: str | None,
+        allow_insecure_tls: bool = False,
         disable_device_pairing: bool = False,
     ) -> None:
         """Validate that a gateway runtime meets minimum supported version."""
         config = GatewayClientConfig(
             url=url,
             token=token,
+            allow_insecure_tls=allow_insecure_tls,
             disable_device_pairing=disable_device_pairing,
         )
         try:

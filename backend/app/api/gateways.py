@@ -97,6 +97,7 @@ async def create_gateway(
     await service.assert_gateway_runtime_compatible(
         url=payload.url,
         token=payload.token,
+        allow_insecure_tls=payload.allow_insecure_tls,
         disable_device_pairing=payload.disable_device_pairing,
     )
     data = payload.model_dump()
@@ -138,10 +139,18 @@ async def update_gateway(
         organization_id=ctx.organization.id,
     )
     updates = payload.model_dump(exclude_unset=True)
-    if "url" in updates or "token" in updates or "disable_device_pairing" in updates:
+    if (
+        "url" in updates
+        or "token" in updates
+        or "allow_insecure_tls" in updates
+        or "disable_device_pairing" in updates
+    ):
         raw_next_url = updates.get("url", gateway.url)
         next_url = raw_next_url.strip() if isinstance(raw_next_url, str) else ""
         next_token = updates.get("token", gateway.token)
+        next_allow_insecure_tls = bool(
+            updates.get("allow_insecure_tls", gateway.allow_insecure_tls),
+        )
         next_disable_device_pairing = bool(
             updates.get("disable_device_pairing", gateway.disable_device_pairing),
         )
@@ -149,6 +158,7 @@ async def update_gateway(
             await service.assert_gateway_runtime_compatible(
                 url=next_url,
                 token=next_token,
+                allow_insecure_tls=next_allow_insecure_tls,
                 disable_device_pairing=next_disable_device_pairing,
             )
     await crud.patch(session, gateway, updates)

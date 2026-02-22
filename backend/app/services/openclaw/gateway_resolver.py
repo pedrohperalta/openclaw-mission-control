@@ -35,6 +35,7 @@ def gateway_client_config(gateway: Gateway) -> GatewayClientConfig:
     return GatewayClientConfig(
         url=url,
         token=token,
+        allow_insecure_tls=gateway.allow_insecure_tls,
         disable_device_pairing=gateway.disable_device_pairing,
     )
 
@@ -50,6 +51,7 @@ def optional_gateway_client_config(gateway: Gateway | None) -> GatewayClientConf
     return GatewayClientConfig(
         url=url,
         token=token,
+        allow_insecure_tls=gateway.allow_insecure_tls,
         disable_device_pairing=gateway.disable_device_pairing,
     )
 

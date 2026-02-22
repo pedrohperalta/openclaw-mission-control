@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import ssl
 from dataclasses import dataclass
 from time import perf_counter, time
 from typing import Any, Literal
@@ -171,6 +172,7 @@ class GatewayConfig:
 
     url: str
     token: str | None = None
+    allow_insecure_tls: bool = False
     disable_device_pairing: bool = False
 
 
@@ -190,6 +192,24 @@ def _build_gateway_url(config: GatewayConfig) -> str:
 def _redacted_url_for_log(raw_url: str) -> str:
     parsed = urlparse(raw_url)
     return str(urlunparse(parsed._replace(query="", fragment="")))
+
+
+def _create_ssl_context(config: GatewayConfig) -> ssl.SSLContext | None:
+    """Create an insecure SSL context override for explicit opt-in TLS bypass.
+
+    This behavior is intentionally host-agnostic: when ``allow_insecure_tls`` is
+    enabled for a ``wss://`` gateway, certificate and hostname verification are
+    disabled for that gateway connection.
+    """
+    parsed = urlparse(config.url)
+    if parsed.scheme != "wss":
+        return None
+    if not config.allow_insecure_tls:
+        return None
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    ssl_context.check_hostname = False
+    ssl_context.verify_mode = ssl.CERT_NONE
+    return ssl_context
 
 
 def _build_control_ui_origin(gateway_url: str) -> str | None:
@@ -382,10 +402,11 @@ async def _openclaw_call_once(
     gateway_url: str,
 ) -> object:
     origin = _build_control_ui_origin(gateway_url) if config.disable_device_pairing else None
+    ssl_context = _create_ssl_context(config)
     connect_kwargs: dict[str, Any] = {"ping_interval": None}
     if origin is not None:
         connect_kwargs["origin"] = origin
-    async with websockets.connect(gateway_url, **connect_kwargs) as ws:
+    async with websockets.connect(gateway_url, ssl=ssl_context, **connect_kwargs) as ws:
         first_message = await _recv_first_message_or_none(ws)
         await _ensure_connected(ws, first_message, config)
         return await _send_request(ws, method, params)
@@ -397,10 +418,11 @@ async def _openclaw_connect_metadata_once(
     gateway_url: str,
 ) -> object:
     origin = _build_control_ui_origin(gateway_url) if config.disable_device_pairing else None
+    ssl_context = _create_ssl_context(config)
     connect_kwargs: dict[str, Any] = {"ping_interval": None}
     if origin is not None:
         connect_kwargs["origin"] = origin
-    async with websockets.connect(gateway_url, **connect_kwargs) as ws:
+    async with websockets.connect(gateway_url, ssl=ssl_context, **connect_kwargs) as ws:
         first_message = await _recv_first_message_or_none(ws)
         return await _ensure_connected(ws, first_message, config)
 
@@ -415,9 +437,14 @@ async def openclaw_call(
     gateway_url = _build_gateway_url(config)
     started_at = perf_counter()
     logger.debug(
-        "gateway.rpc.call.start method=%s gateway_url=%s",
+        (
+            "gateway.rpc.call.start method=%s gateway_url=%s allow_insecure_tls=%s "
+            "disable_device_pairing=%s"
+        ),
         method,
         _redacted_url_for_log(gateway_url),
+        config.allow_insecure_tls,
+        config.disable_device_pairing,
     )
     try:
         payload = await _openclaw_call_once(

@@ -46,6 +46,9 @@ export default function EditGatewayPage() {
   const [workspaceRoot, setWorkspaceRoot] = useState<string | undefined>(
     undefined,
   );
+  const [allowInsecureTls, setAllowInsecureTls] = useState<boolean | undefined>(
+    undefined,
+  );
 
   const [gatewayUrlError, setGatewayUrlError] = useState<string | null>(null);
   const [gatewayCheckStatus, setGatewayCheckStatus] =
@@ -89,6 +92,8 @@ export default function EditGatewayPage() {
     disableDevicePairing ?? loadedGateway?.disable_device_pairing ?? false;
   const resolvedWorkspaceRoot =
     workspaceRoot ?? loadedGateway?.workspace_root ?? DEFAULT_WORKSPACE_ROOT;
+  const resolvedAllowInsecureTls =
+    allowInsecureTls ?? loadedGateway?.allow_insecure_tls ?? false;
 
   const isLoading =
     gatewayQuery.isLoading ||
@@ -127,6 +132,7 @@ export default function EditGatewayPage() {
       gatewayUrl: resolvedGatewayUrl,
       gatewayToken: resolvedGatewayToken,
       gatewayDisableDevicePairing: resolvedDisableDevicePairing,
+      gatewayAllowInsecureTls: resolvedAllowInsecureTls,
     });
     setGatewayCheckStatus(ok ? "success" : "error");
     setGatewayCheckMessage(message);
@@ -142,6 +148,7 @@ export default function EditGatewayPage() {
       token: resolvedGatewayToken.trim() || null,
       disable_device_pairing: resolvedDisableDevicePairing,
       workspace_root: resolvedWorkspaceRoot.trim(),
+      allow_insecure_tls: resolvedAllowInsecureTls,
     };
 
     updateMutation.mutate({ gatewayId, data: payload });
@@ -168,6 +175,7 @@ export default function EditGatewayPage() {
         gatewayToken={resolvedGatewayToken}
         disableDevicePairing={resolvedDisableDevicePairing}
         workspaceRoot={resolvedWorkspaceRoot}
+        allowInsecureTls={resolvedAllowInsecureTls}
         gatewayUrlError={gatewayUrlError}
         gatewayCheckStatus={gatewayCheckStatus}
         gatewayCheckMessage={gatewayCheckMessage}
@@ -198,6 +206,11 @@ export default function EditGatewayPage() {
           setGatewayCheckMessage(null);
         }}
         onWorkspaceRootChange={setWorkspaceRoot}
+        onAllowInsecureTlsChange={(next) => {
+          setAllowInsecureTls(next);
+          setGatewayCheckStatus("idle");
+          setGatewayCheckMessage(null);
+        }}
       />
     </DashboardPageLayout>
   );
