@@ -67,10 +67,10 @@ const columns: Array<{
   {
     title: "Review",
     status: "review",
-    dot: "bg-indigo-500",
-    accent: "hover:border-indigo-400 hover:bg-indigo-50",
-    text: "group-hover:text-indigo-600 text-slate-500",
-    badge: "bg-indigo-100 text-indigo-700",
+    dot: "bg-emerald-500",
+    accent: "hover:border-emerald-400 hover:bg-emerald-50",
+    text: "group-hover:text-emerald-600 text-slate-500",
+    badge: "bg-emerald-100 text-emerald-700",
   },
   {
     title: "Done",

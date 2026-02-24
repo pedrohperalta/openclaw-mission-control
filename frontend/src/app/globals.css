@@ -13,12 +13,12 @@
   --text: #0f172a;
   --text-muted: #64748b;
   --text-quiet: #94a3b8;
-  --accent: #2563eb;
-  --accent-strong: #1d4ed8;
-  --accent-soft: rgba(37, 99, 235, 0.12);
-  --success: #16a34a;
-  --warning: #d97706;
-  --danger: #dc2626;
+  --accent: #005700;
+  --accent-strong: #003800;
+  --accent-soft: rgba(0, 87, 0, 0.12);
+  --success: #30A46C;
+  --warning: #F76808;
+  --danger: #E5484D;
   --shadow-panel:
     0 1px 3px rgba(15, 23, 42, 0.12), 0 1px 2px rgba(15, 23, 42, 0.08);
   --shadow-card:
@@ -133,17 +133,17 @@ body {
 
 /* Landing (Enterprise) */
 .landing-enterprise {
-  --primary-navy: #0a1628;
-  --secondary-navy: #1a2942;
+  --primary-navy: #002912;
+  --secondary-navy: #003800;
   --accent-gold: #d4af37;
-  --accent-teal: #2dd4bf;
+  --accent-teal: #00DA00;
   --neutral-100: #f8fafb;
   --neutral-200: #e5e9ed;
   --neutral-300: #cbd2d9;
   --neutral-700: #3e4c59;
   --neutral-800: #1e293b;
-  --success: #10b981;
-  --warning: #f59e0b;
+  --success: #30A46C;
+  --warning: #F76808;
 
   min-height: 100vh;
   font-family:
@@ -233,7 +233,7 @@ body {
   color: white;
   font-weight: 600;
   font-size: 18px;
-  box-shadow: 0 2px 8px rgba(10, 22, 40, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 41, 18, 0.15);
 }
 
 .landing-enterprise .logo-text {
@@ -309,13 +309,13 @@ body {
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(10, 22, 40, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 41, 18, 0.15);
 }
 
 .landing-enterprise .btn-primary:hover {
   background: var(--secondary-navy);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(10, 22, 40, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 41, 18, 0.2);
 }
 
 .landing-enterprise .hero {
@@ -339,10 +339,10 @@ body {
   padding: 0.5rem 1rem;
   background: linear-gradient(
     135deg,
-    rgba(10, 22, 40, 0.05),
-    rgba(45, 212, 191, 0.08)
+    rgba(0, 41, 18, 0.05),
+    rgba(0, 218, 0, 0.08)
   );
-  border: 1px solid rgba(45, 212, 191, 0.2);
+  border: 1px solid rgba(0, 218, 0, 0.2);
   border-radius: 50px;
   font-size: 13px;
   font-weight: 600;
@@ -401,13 +401,13 @@ body {
   background: var(--primary-navy);
   color: white;
   border: none;
-  box-shadow: 0 4px 12px rgba(10, 22, 40, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 41, 18, 0.2);
 }
 
 .landing-enterprise .btn-large.primary:hover {
   background: var(--secondary-navy);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(10, 22, 40, 0.25);
+  box-shadow: 0 8px 20px rgba(0, 41, 18, 0.25);
 }
 
 .landing-enterprise .btn-large.secondary {
@@ -456,7 +456,7 @@ body {
 .landing-enterprise .command-surface {
   background: white;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(10, 22, 40, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 41, 18, 0.08);
   overflow: hidden;
   animation: landing-fade-in-up 0.8s ease-out 0.4s both;
   border: 1px solid var(--neutral-200);
@@ -590,7 +590,7 @@ body {
 }
 
 .landing-enterprise .status-icon.progress {
-  background: rgba(45, 212, 191, 0.1);
+  background: rgba(0, 218, 0, 0.1);
   color: var(--accent-teal);
 }
 
@@ -630,12 +630,12 @@ body {
 }
 
 .landing-enterprise .approval-badge.ready {
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(48, 164, 108, 0.1);
   color: var(--success);
 }
 
 .landing-enterprise .approval-badge.waiting {
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(247, 104, 8, 0.1);
   color: var(--warning);
 }
 
@@ -708,7 +708,7 @@ body {
 
 .landing-enterprise .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(10, 22, 40, 0.12);
+  box-shadow: 0 12px 32px rgba(0, 41, 18, 0.12);
   border-color: var(--accent-teal);
 }
 
@@ -717,8 +717,8 @@ body {
   height: 48px;
   background: linear-gradient(
     135deg,
-    rgba(10, 22, 40, 0.05),
-    rgba(45, 212, 191, 0.08)
+    rgba(0, 41, 18, 0.05),
+    rgba(0, 218, 0, 0.08)
   );
   border: 1px solid var(--neutral-200);
   border-radius: 10px;

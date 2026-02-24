@@ -85,8 +85,8 @@ export default function MetricSparkline({
   }
 
   const data = buildSparkData(values);
-  const strokeColor = "#60a5fa";
-  const fillColor = "#bfdbfe";
+  const strokeColor = "#4ade80";
+  const fillColor = "#bbf7d0";
 
   return (
     <div className={cn("h-8 w-full", className)}>

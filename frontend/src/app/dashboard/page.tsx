@@ -213,7 +213,7 @@ function KpiCard({
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
           {label}
         </p>
-        <div className="rounded-lg bg-blue-50 p-2 text-blue-600">{icon}</div>
+        <div className="rounded-lg bg-green-50 p-2 text-green-700">{icon}</div>
       </div>
       <div className="flex items-end gap-2">
         <h3 className="font-heading text-4xl font-bold text-slate-900">
@@ -225,7 +225,7 @@ function KpiCard({
       ) : null}
       <div className="mt-3 h-1 overflow-hidden rounded-full bg-slate-100">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-600"
+          className="h-full rounded-full bg-gradient-to-r from-green-700 to-green-800"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -460,7 +460,7 @@ export default function DashboardPage() {
                   ariaLabel="Dashboard date range"
                   placeholder="Select range"
                   searchEnabled={false}
-                  triggerClassName="h-9 min-w-[150px] rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  triggerClassName="h-9 min-w-[150px] rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-100"
                   contentClassName="rounded-lg border border-slate-200"
                 />
                 <DropdownSelect
@@ -490,7 +490,7 @@ export default function DashboardPage() {
                   options={boardGroupOptions}
                   ariaLabel="Dashboard board group filter"
                   placeholder="All groups"
-                  triggerClassName="h-9 min-w-[170px] rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  triggerClassName="h-9 min-w-[170px] rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-100"
                   contentClassName="rounded-lg border border-slate-200"
                   searchEnabled={false}
                   disabled={boardGroupsQuery.isLoading}
@@ -511,7 +511,7 @@ export default function DashboardPage() {
                   options={boardOptions}
                   ariaLabel="Dashboard board filter"
                   placeholder="All boards"
-                  triggerClassName="h-9 min-w-[170px] rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                  triggerClassName="h-9 min-w-[170px] rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-100"
                   contentClassName="rounded-lg border border-slate-200"
                   searchEnabled={false}
                   disabled={boardsQuery.isLoading || boardOptions.length <= 1}
@@ -616,7 +616,7 @@ export default function DashboardPage() {
                         <Bar
                           dataKey="value"
                           name="Completed"
-                          fill="#2563eb"
+                          fill="#005700"
                           radius={[6, 6, 0, 0]}
                         />
                       </BarChart>
@@ -664,7 +664,7 @@ export default function DashboardPage() {
                           type="monotone"
                           dataKey="value"
                           name="Hours"
-                          stroke="#1d4ed8"
+                          stroke="#003800"
                           strokeWidth={2}
                           dot={false}
                         />
@@ -711,7 +711,7 @@ export default function DashboardPage() {
                           type="monotone"
                           dataKey="value"
                           name="Error rate"
-                          stroke="#1e40af"
+                          stroke="#002912"
                           strokeWidth={2}
                           dot={false}
                         />
@@ -771,8 +771,8 @@ export default function DashboardPage() {
                           dataKey="in_progress"
                           name="In progress"
                           stackId="wip"
-                          fill="#bfdbfe"
-                          stroke="#1d4ed8"
+                          fill="#bbf7d0"
+                          stroke="#003800"
                           fillOpacity={0.8}
                         />
                         <Area

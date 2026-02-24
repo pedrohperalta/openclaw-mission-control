@@ -207,7 +207,7 @@ export default function NewBoardGroupPage() {
                         <label className="flex cursor-pointer items-start gap-3">
                           <input
                             type="checkbox"
-                            className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-600"
+                            className="mt-1 h-4 w-4 rounded border-slate-300 text-green-700"
                             checked={checked}
                             onChange={() => {
                               setSelectedBoardIds((prev) => {
@@ -271,7 +271,7 @@ export default function NewBoardGroupPage() {
           Want to assign boards later? Update each board in{" "}
           <Link
             href="/boards"
-            className="font-medium text-blue-600 hover:text-blue-700"
+            className="font-medium text-green-700 hover:text-green-800"
           >
             Boards
           </Link>{" "}

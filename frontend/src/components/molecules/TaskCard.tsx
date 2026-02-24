@@ -47,7 +47,7 @@ export function TaskCard({
     : hasPendingApproval
       ? "bg-amber-400"
       : needsLeadReview
-        ? "bg-indigo-400"
+        ? "bg-emerald-400"
         : null;
   const priorityBadge = (value?: string) => {
     if (!value) return null;
@@ -74,7 +74,7 @@ export function TaskCard({
         isDragging && "opacity-60 shadow-none",
         hasPendingApproval && "border-amber-200 bg-amber-50/40",
         isBlocked && "border-rose-200 bg-rose-50/50",
-        needsLeadReview && "border-indigo-200 bg-indigo-50/30",
+        needsLeadReview && "border-emerald-200 bg-emerald-50/30",
       )}
       draggable={draggable}
       onDragStart={onDragStart}
@@ -115,8 +115,8 @@ export function TaskCard({
             </div>
           ) : null}
           {needsLeadReview ? (
-            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wide text-indigo-700">
-              <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+            <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Waiting for lead review
             </div>
           ) : null}

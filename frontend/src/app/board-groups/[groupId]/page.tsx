@@ -73,7 +73,7 @@ const statusTone = (value?: string | null) => {
     case "done":
       return "bg-slate-50 text-slate-600 border-slate-200";
     default:
-      return "bg-blue-50 text-blue-700 border-blue-200";
+      return "bg-green-50 text-green-800 border-green-200";
   }
 };
 
@@ -84,7 +84,7 @@ const priorityTone = (value?: string | null) => {
     case "low":
       return "bg-slate-50 text-slate-600 border-slate-200";
     default:
-      return "bg-indigo-50 text-indigo-700 border-indigo-200";
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
   }
 };
 
@@ -820,7 +820,7 @@ export default function BoardGroupDetailPage() {
                 <label className="inline-flex items-center gap-2 text-sm text-slate-700">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 rounded border-slate-300 text-blue-600"
+                    className="h-4 w-4 rounded border-slate-300 text-green-700"
                     checked={includeDone}
                     onChange={(event) => setIncludeDone(event.target.checked)}
                   />
@@ -911,7 +911,7 @@ export default function BoardGroupDetailPage() {
                   <label className="inline-flex items-center gap-2 text-xs text-slate-700">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 rounded border-slate-300 text-blue-600"
+                      className="h-4 w-4 rounded border-slate-300 text-green-700"
                       checked={includeBoardLeads}
                       onChange={(event) =>
                         setIncludeBoardLeads(event.target.checked)
@@ -996,10 +996,10 @@ export default function BoardGroupDetailPage() {
                               className="group inline-flex items-center gap-2"
                               title="Open board"
                             >
-                              <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-blue-600">
+                              <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-green-700">
                                 {item.board.name}
                               </p>
-                              <ArrowUpRight className="h-4 w-4 text-slate-400 group-hover:text-blue-600" />
+                              <ArrowUpRight className="h-4 w-4 text-slate-400 group-hover:text-green-700" />
                             </Link>
                             <p className="mt-1 text-xs text-slate-500">
                               Updated {formatTimestamp(item.board.updated_at)}
@@ -1029,7 +1029,7 @@ export default function BoardGroupDetailPage() {
                                     pathname: `/boards/${item.board.id}`,
                                     query: { taskId: task.id },
                                   }}
-                                  className="block rounded-lg border border-slate-200 bg-slate-50/40 p-3 transition hover:border-blue-200 hover:bg-blue-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                  className="block rounded-lg border border-slate-200 bg-slate-50/40 p-3 transition hover:border-green-200 hover:bg-green-50/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-700 focus-visible:ring-offset-2"
                                   title="Open task on board"
                                 >
                                   <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1131,7 +1131,7 @@ export default function BoardGroupDetailPage() {
               <label className="inline-flex items-center gap-2 text-sm text-slate-700">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-slate-300 text-blue-600"
+                  className="h-4 w-4 rounded border-slate-300 text-green-700"
                   checked={chatBroadcast}
                   onChange={(event) => setChatBroadcast(event.target.checked)}
                   disabled={!canWriteGroup}
@@ -1218,7 +1218,7 @@ export default function BoardGroupDetailPage() {
               <label className="inline-flex items-center gap-2 text-sm text-slate-700">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded border-slate-300 text-blue-600"
+                  className="h-4 w-4 rounded border-slate-300 text-green-700"
                   checked={notesBroadcast}
                   onChange={(event) => setNotesBroadcast(event.target.checked)}
                   disabled={!canWriteGroup}

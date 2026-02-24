@@ -96,7 +96,7 @@ const formatStatusLabel = (status: string) =>
 
 const rubricColors = [
   "#0f172a",
-  "#1d4ed8",
+  "#005700",
   "#10b981",
   "#f59e0b",
   "#ef4444",

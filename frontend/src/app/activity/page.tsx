@@ -164,7 +164,7 @@ const eventLabel = (eventType: FeedEventType): string => {
 
 const eventPillClass = (eventType: FeedEventType): string => {
   if (eventType === "task.comment") {
-    return "border-blue-200 bg-blue-50 text-blue-700";
+    return "border-green-200 bg-green-50 text-green-800";
   }
   if (eventType === "task.created") {
     return "border-emerald-200 bg-emerald-50 text-emerald-700";
@@ -188,13 +188,13 @@ const eventPillClass = (eventType: FeedEventType): string => {
     return "border-slate-300 bg-slate-100 text-slate-700";
   }
   if (eventType === "agent.updated") {
-    return "border-indigo-200 bg-indigo-50 text-indigo-700";
+    return "border-emerald-200 bg-emerald-50 text-emerald-700";
   }
   if (eventType === "approval.created") {
-    return "border-cyan-200 bg-cyan-50 text-cyan-700";
+    return "border-teal-200 bg-teal-50 text-teal-700";
   }
   if (eventType === "approval.updated") {
-    return "border-sky-200 bg-sky-50 text-sky-700";
+    return "border-teal-200 bg-teal-50 text-teal-700";
   }
   if (eventType === "approval.approved") {
     return "border-emerald-200 bg-emerald-50 text-emerald-700";

@@ -40,7 +40,7 @@ export function linkifyCell({
       <Link href={href} title={title} className={cn("group block", className)}>
         <p
           className={cn(
-            "text-sm font-medium text-slate-900 group-hover:text-blue-600",
+            "text-sm font-medium text-slate-900 group-hover:text-green-700",
             labelClassName,
           )}
         >
@@ -60,7 +60,7 @@ export function linkifyCell({
       href={href}
       title={title}
       className={cn(
-        "text-sm font-medium text-slate-700 hover:text-blue-600",
+        "text-sm font-medium text-slate-700 hover:text-green-700",
         className,
       )}
     >

@@ -188,7 +188,7 @@ export default function NewBoardPage() {
                 placeholder="Select gateway"
                 searchPlaceholder="Search gateways..."
                 emptyMessage="No gateways found."
-                triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-200"
                 contentClassName="rounded-xl border border-slate-200 shadow-lg"
                 itemClassName="px-4 py-3 text-sm text-slate-700 data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900"
               />
@@ -208,7 +208,7 @@ export default function NewBoardPage() {
                 placeholder="No group"
                 searchPlaceholder="Search groups..."
                 emptyMessage="No groups found."
-                triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-200"
                 contentClassName="rounded-xl border border-slate-200 shadow-lg"
                 itemClassName="px-4 py-3 text-sm text-slate-700 data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900"
                 disabled={isLoading}
@@ -239,7 +239,7 @@ export default function NewBoardPage() {
               No gateways available. Create one in{" "}
               <Link
                 href="/gateways"
-                className="font-medium text-blue-600 hover:text-blue-700"
+                className="font-medium text-green-700 hover:text-green-800"
               >
                 Gateways
               </Link>{" "}

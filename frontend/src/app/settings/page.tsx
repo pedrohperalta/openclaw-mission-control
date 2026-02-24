@@ -172,7 +172,7 @@ export default function SettingsPage() {
                     }}
                     placeholder="Your name"
                     disabled={isSaving}
-                    className="border-slate-300 text-slate-900 focus-visible:ring-blue-500"
+                    className="border-slate-300 text-slate-900 focus-visible:ring-green-700"
                   />
                 </div>
                 <div className="space-y-2">
@@ -192,7 +192,7 @@ export default function SettingsPage() {
                     searchPlaceholder="Search timezones..."
                     emptyMessage="No matching timezones."
                     disabled={isSaving}
-                    triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-200"
                     contentClassName="rounded-xl border border-slate-200 shadow-lg"
                     itemClassName="px-4 py-3 text-sm text-slate-700 data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900"
                   />

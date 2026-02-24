@@ -442,7 +442,7 @@ const liveFeedEventLabel = (eventType: LiveFeedEventType): string => {
 
 const liveFeedEventPillClass = (eventType: LiveFeedEventType): string => {
   if (eventType === "task.comment") {
-    return "border-blue-200 bg-blue-50 text-blue-700";
+    return "border-green-200 bg-green-50 text-green-800";
   }
   if (eventType === "task.created") {
     return "border-emerald-200 bg-emerald-50 text-emerald-700";
@@ -466,13 +466,13 @@ const liveFeedEventPillClass = (eventType: LiveFeedEventType): string => {
     return "border-slate-300 bg-slate-100 text-slate-700";
   }
   if (eventType === "agent.updated") {
-    return "border-indigo-200 bg-indigo-50 text-indigo-700";
+    return "border-emerald-200 bg-emerald-50 text-emerald-700";
   }
   if (eventType === "approval.created") {
-    return "border-cyan-200 bg-cyan-50 text-cyan-700";
+    return "border-teal-200 bg-teal-50 text-teal-700";
   }
   if (eventType === "approval.updated") {
-    return "border-sky-200 bg-sky-50 text-sky-700";
+    return "border-teal-200 bg-teal-50 text-teal-700";
   }
   if (eventType === "approval.approved") {
     return "border-emerald-200 bg-emerald-50 text-emerald-700";
@@ -670,7 +670,7 @@ const LiveFeedCard = memo(function LiveFeedCard({
       className={cn(
         "rounded-xl border p-3 transition-colors duration-300",
         isNew
-          ? "border-blue-200 bg-blue-50/70 shadow-sm hover:border-blue-300 motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:slide-in-from-right-2 motion-safe:duration-300"
+          ? "border-green-200 bg-green-50/70 shadow-sm hover:border-green-300 motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 motion-safe:slide-in-from-right-2 motion-safe:duration-300"
           : "border-slate-200 bg-white hover:border-slate-300",
       )}
     >
@@ -2830,7 +2830,7 @@ export default function BoardDetailPage() {
       case "in_progress":
         return "bg-purple-100 text-purple-700";
       case "review":
-        return "bg-indigo-100 text-indigo-700";
+        return "bg-emerald-100 text-emerald-700";
       case "done":
         return "bg-emerald-100 text-emerald-700";
       default:
@@ -3286,7 +3286,7 @@ export default function BoardDetailPage() {
                                       }
                                     >
                                       <div className="min-w-0">
-                                        <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-blue-600">
+                                        <p className="truncate text-sm font-semibold text-slate-900 group-hover:text-green-700">
                                           {item.board.name}
                                         </p>
                                         <p className="mt-1 text-xs text-slate-500">
@@ -3296,7 +3296,7 @@ export default function BoardDetailPage() {
                                           )}
                                         </p>
                                       </div>
-                                      <ArrowUpRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-slate-400 group-hover:text-blue-600" />
+                                      <ArrowUpRight className="mt-0.5 h-4 w-4 flex-shrink-0 text-slate-400 group-hover:text-green-700" />
                                     </button>
 
                                     <div className="mt-3 flex flex-wrap gap-2 text-xs">

@@ -70,7 +70,7 @@ function riskPillClassName(risk: string | null | undefined) {
     case "unknown":
       return "bg-[color:rgba(148,163,184,0.16)] text-slate-700 border border-slate-200/80";
     default:
-      return "bg-[color:rgba(99,102,241,0.16)] text-indigo-800 border border-indigo-200/70";
+      return "bg-[color:rgba(99,102,241,0.16)] text-emerald-800 border border-emerald-200/70";
   }
 }
 
@@ -129,7 +129,7 @@ export function MarketplaceSkillsTable({
               <button
                 type="button"
                 onClick={() => onSkillClick(row.original)}
-                className="text-sm font-medium text-blue-700 hover:text-blue-600 hover:underline"
+                className="text-sm font-medium text-green-800 hover:text-green-700 hover:underline"
               >
                 {row.original.name}
               </button>
@@ -155,7 +155,7 @@ export function MarketplaceSkillsTable({
           return (
             <Link
               href={packsHrefFromPackUrl(packUrl)}
-              className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-blue-600"
+              className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-green-700"
             >
               {truncate(packLabelFromUrl(packUrl), 40)}
             </Link>
@@ -198,7 +198,7 @@ export function MarketplaceSkillsTable({
               href={sourceHref}
               target="_blank"
               rel="noreferrer"
-              className="text-sm font-medium text-slate-700 hover:text-blue-600 hover:underline"
+              className="text-sm font-medium text-slate-700 hover:text-green-700 hover:underline"
               title={sourceHref}
             >
               {truncate(sourceHref, 36)}
@@ -228,7 +228,7 @@ export function MarketplaceSkillsTable({
                   >
                     <Link
                       href={`/gateways/${gateway.id}`}
-                      className="text-blue-700 hover:text-blue-600 hover:underline"
+                      className="text-green-800 hover:text-green-700 hover:underline"
                     >
                       {gateway.name}
                     </Link>

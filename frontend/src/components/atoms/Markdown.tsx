@@ -46,7 +46,7 @@ const renderMentionsInText = (text: string, keyPrefix: string): ReactNode => {
     nodes.push(
       <span
         key={`${keyPrefix}-${mentionCount}`}
-        className="font-semibold text-cyan-700"
+        className="font-semibold text-teal-700"
       >
         {mention}
       </span>,
@@ -195,7 +195,7 @@ const MARKDOWN_COMPONENTS_BASIC: Components = {
   a: ({ node: _node, className, children, ...props }) => (
     <a
       className={cn(
-        "font-medium text-sky-700 underline decoration-sky-400 underline-offset-2 transition-colors hover:text-sky-800 hover:decoration-sky-600",
+        "font-medium text-teal-700 underline decoration-teal-400 underline-offset-2 transition-colors hover:text-teal-800 hover:decoration-teal-600",
         className,
       )}
       target="_blank"

@@ -6,7 +6,7 @@ const AGENT_STATUS_DOT_CLASS_BY_STATUS: Record<string, string> = {
   online: "bg-emerald-500",
   busy: "bg-amber-500",
   provisioning: "bg-amber-500",
-  updating: "bg-sky-500",
+  updating: "bg-teal-500",
   deleting: "bg-rose-500",
   offline: "bg-slate-400",
 };
@@ -20,7 +20,7 @@ const APPROVAL_STATUS_DOT_CLASS_BY_STATUS: Record<string, string> = {
 const TASK_STATUS_DOT_CLASS_BY_STATUS: Record<string, string> = {
   inbox: "bg-slate-400",
   in_progress: "bg-purple-500",
-  review: "bg-indigo-500",
+  review: "bg-emerald-500",
   done: "bg-emerald-500",
 };
 

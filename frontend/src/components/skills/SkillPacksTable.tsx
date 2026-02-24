@@ -82,7 +82,7 @@ export function SkillPacksTable({
             href={row.original.source_url}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-blue-600"
+            className="inline-flex items-center gap-1 text-sm font-medium text-slate-700 hover:text-green-700"
           >
             {truncate(row.original.source_url, 48)}
           </Link>
@@ -103,7 +103,7 @@ export function SkillPacksTable({
         cell: ({ row }) => (
           <Link
             href={`/skills/marketplace?packId=${encodeURIComponent(row.original.id)}`}
-            className="text-sm font-medium text-blue-700 hover:text-blue-600 hover:underline"
+            className="text-sm font-medium text-green-800 hover:text-green-700 hover:underline"
           >
             {row.original.skill_count ?? 0}
           </Link>

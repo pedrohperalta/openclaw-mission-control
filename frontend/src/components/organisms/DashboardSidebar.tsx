@@ -74,7 +74,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname === "/dashboard"
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -86,7 +86,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname.startsWith("/activity")
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -106,7 +106,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname.startsWith("/board-groups")
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -118,7 +118,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname.startsWith("/boards")
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -130,7 +130,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname.startsWith("/tags")
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -142,7 +142,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname.startsWith("/approvals")
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -155,7 +155,7 @@ export function DashboardSidebar() {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                     pathname.startsWith("/custom-fields")
-                      ? "bg-blue-100 text-blue-800 font-medium"
+                      ? "bg-green-100 text-green-900 font-medium"
                       : "hover:bg-slate-100",
                   )}
                 >
@@ -179,7 +179,7 @@ export function DashboardSidebar() {
                       "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                       pathname === "/skills" ||
                         pathname.startsWith("/skills/marketplace")
-                        ? "bg-blue-100 text-blue-800 font-medium"
+                        ? "bg-green-100 text-green-900 font-medium"
                         : "hover:bg-slate-100",
                     )}
                   >
@@ -191,7 +191,7 @@ export function DashboardSidebar() {
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                       pathname.startsWith("/skills/packs")
-                        ? "bg-blue-100 text-blue-800 font-medium"
+                        ? "bg-green-100 text-green-900 font-medium"
                         : "hover:bg-slate-100",
                     )}
                   >
@@ -213,7 +213,7 @@ export function DashboardSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                   pathname.startsWith("/organization")
-                    ? "bg-blue-100 text-blue-800 font-medium"
+                    ? "bg-green-100 text-green-900 font-medium"
                     : "hover:bg-slate-100",
                 )}
               >
@@ -226,7 +226,7 @@ export function DashboardSidebar() {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                     pathname.startsWith("/gateways")
-                      ? "bg-blue-100 text-blue-800 font-medium"
+                      ? "bg-green-100 text-green-900 font-medium"
                       : "hover:bg-slate-100",
                   )}
                 >
@@ -240,7 +240,7 @@ export function DashboardSidebar() {
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-3 py-2.5 text-slate-700 transition",
                     pathname.startsWith("/agents")
-                      ? "bg-blue-100 text-blue-800 font-medium"
+                      ? "bg-green-100 text-green-900 font-medium"
                       : "hover:bg-slate-100",
                   )}
                 >

@@ -161,7 +161,7 @@ export default function OnboardingPage() {
                       onChange={(event) => setName(event.target.value)}
                       placeholder="Enter your name"
                       disabled={isLoading}
-                      className="border-slate-300 text-slate-900 focus-visible:ring-blue-500"
+                      className="border-slate-300 text-slate-900 focus-visible:ring-green-700"
                     />
                   </div>
                   <div className="space-y-2">
@@ -178,15 +178,15 @@ export default function OnboardingPage() {
                       placeholder="Select timezone"
                       searchPlaceholder="Search timezones..."
                       emptyMessage="No matching timezones."
-                      triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                      triggerClassName="w-full h-11 rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-900 shadow-sm focus:border-green-700 focus:ring-2 focus:ring-green-200"
                       contentClassName="rounded-xl border border-slate-200 shadow-lg"
                       itemClassName="px-4 py-3 text-sm text-slate-700 data-[selected=true]:bg-slate-50 data-[selected=true]:text-slate-900"
                     />
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-800 flex items-start gap-3">
-                  <Info className="mt-0.5 h-4 w-4 text-blue-600" />
+                <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-900 flex items-start gap-3">
+                  <Info className="mt-0.5 h-4 w-4 text-green-700" />
                   <p>
                     <strong>Note:</strong> Your timezone is used to display all
                     timestamps and schedule mission-critical events accurately.
@@ -202,7 +202,7 @@ export default function OnboardingPage() {
                 <div className="flex flex-wrap gap-3 pt-2">
                   <Button
                     type="submit"
-                    className="flex-1 bg-blue-600 text-white hover:bg-blue-700 py-2.5"
+                    className="flex-1 bg-green-700 text-white hover:bg-green-800 py-2.5"
                     disabled={isLoading || requiredMissing}
                   >
                     <Save className="h-4 w-4" />

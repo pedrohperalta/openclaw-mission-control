@@ -378,7 +378,7 @@ export default function EditBoardGroupPage() {
                         <label className="flex cursor-pointer items-start gap-3">
                           <input
                             type="checkbox"
-                            className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-600"
+                            className="mt-1 h-4 w-4 rounded border-slate-300 text-green-700"
                             checked={checked}
                             onChange={() => {
                               setSelectedBoardIds((prev) => {
