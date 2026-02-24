@@ -1,0 +1,109 @@
+name: openclaw-mission-control
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mission_control}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - internal
+
+  redis:
+    image: redis:7-alpine
+    networks:
+      - internal
+
+  backend:
+    image: openclaw-backend:latest
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-mission_control}
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://agents.phperalta.me}
+      DB_AUTO_MIGRATE: ${DB_AUTO_MIGRATE:-true}
+      AUTH_MODE: ${AUTH_MODE:-local}
+      LOCAL_AUTH_TOKEN: ${LOCAL_AUTH_TOKEN}
+      RQ_REDIS_URL: redis://redis:6379/0
+      BASE_URL: http://openclaw-mission-control-backend-1:8000
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      REQUEST_LOG_SLOW_MS: ${REQUEST_LOG_SLOW_MS:-1000}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.openclaw-api.rule: "Host(`agents.phperalta.me`) && (PathPrefix(`/api`) || Path(`/health`) || Path(`/healthz`) || Path(`/readyz`))"
+      traefik.http.routers.openclaw-api.entrypoints: "web,websecure"
+      traefik.http.routers.openclaw-api.tls: "true"
+      traefik.http.routers.openclaw-api.tls.certresolver: "mytlschallenge"
+      traefik.http.routers.openclaw-api.middlewares: "cf-only@docker"
+      traefik.http.routers.openclaw-api.priority: "100"
+      traefik.http.services.openclaw-api.loadbalancer.server.port: "8000"
+      traefik.docker.network: root_default
+    networks:
+      - internal
+      - traefik
+
+  frontend:
+    image: openclaw-frontend:latest
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://agents.phperalta.me}
+      NEXT_PUBLIC_AUTH_MODE: ${AUTH_MODE:-local}
+    depends_on:
+      - backend
+    labels:
+      traefik.enable: "true"
+      # --- Router ---
+      traefik.http.routers.openclaw-fe.rule: "Host(`agents.phperalta.me`)"
+      traefik.http.routers.openclaw-fe.entrypoints: "web,websecure"
+      traefik.http.routers.openclaw-fe.tls: "true"
+      traefik.http.routers.openclaw-fe.tls.certresolver: "mytlschallenge"
+      traefik.http.routers.openclaw-fe.middlewares: "cf-only@docker"
+      traefik.http.services.openclaw-fe.loadbalancer.server.port: "3000"
+      traefik.docker.network: root_default
+      # --- Cloudflare-only IP allowlist middleware ---
+      # Source: https://www.cloudflare.com/ips/
+      traefik.http.middlewares.cf-only.ipallowlist.sourcerange: "173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/13,104.24.0.0/14,172.64.0.0/13,131.0.72.0/22,2400:cb00::/32,2606:4700::/32,2803:f800::/32,2405:b500::/32,2405:8100::/32,2a06:98c0::/29,2c0f:f248::/32"
+    networks:
+      - internal
+      - traefik
+
+  webhook-worker:
+    image: openclaw-backend:latest
+    command: ["rq", "worker", "-u", "redis://redis:6379/0"]
+    depends_on:
+      redis:
+        condition: service_started
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-mission_control}
+      AUTH_MODE: ${AUTH_MODE:-local}
+      LOCAL_AUTH_TOKEN: ${LOCAL_AUTH_TOKEN}
+      RQ_REDIS_URL: redis://redis:6379/0
+      RQ_QUEUE_NAME: ${RQ_QUEUE_NAME:-default}
+      RQ_DISPATCH_THROTTLE_SECONDS: ${RQ_DISPATCH_THROTTLE_SECONDS:-2.0}
+      RQ_DISPATCH_MAX_RETRIES: ${RQ_DISPATCH_MAX_RETRIES:-3}
+    restart: unless-stopped
+    networks:
+      - internal
+
+networks:
+  internal:
+    # Private network for inter-service communication (db, redis, backend, etc.)
+  traefik:
+    # Shared network with Traefik reverse proxy
+    external: true
+    name: root_default
+
+volumes:
+  postgres_data:
