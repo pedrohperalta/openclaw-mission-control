@@ -1,0 +1,39 @@
+{
+  "status": "complete",
+  "project_type": "brownfield",
+  "current_section": "complete",
+  "current_question": 0,
+  "completed_sections": ["product", "guidelines", "tech_stack", "workflow", "styleguides"],
+  "answers": {
+    "project_name": "Stone AI Mission Control",
+    "description": "Centralized operations and governance platform for running AI agents across teams",
+    "problem": "Teams lack a unified surface to plan, execute, review, and audit AI agent work",
+    "target_users": "Product/Engineering teams that want to focus on goals, not tasks",
+    "key_goals": "Goal-driven work, human-in-the-loop approvals, API-first automation",
+    "voice_tone": "Concise and direct",
+    "design_principles": "Operations-first, governance built-in, API-first",
+    "languages": "Python 3.12+, TypeScript 5",
+    "frontend": "Next.js 16 with React 19",
+    "backend": "FastAPI 0.131 with SQLModel + SQLAlchemy async",
+    "database": "PostgreSQL 16 + Redis 7",
+    "infrastructure": "Multiple options (Docker + local)",
+    "tdd_strictness": "Moderate - tests encouraged, not blocked",
+    "commit_strategy": "Conventional Commits (feat:, fix:, etc.)",
+    "code_review": "Required for all changes",
+    "verification_checkpoints": "Only at track completion",
+    "style_guides": "Both TypeScript and Python",
+    "existing_conventions": "Yes, use existing configs"
+  },
+  "files_created": [
+    "conductor/index.md",
+    "conductor/product.md",
+    "conductor/product-guidelines.md",
+    "conductor/tech-stack.md",
+    "conductor/workflow.md",
+    "conductor/tracks.md",
+    "conductor/code_styleguides/python.md",
+    "conductor/code_styleguides/typescript.md"
+  ],
+  "started_at": "2026-02-26T15:40:00.000Z",
+  "last_updated": "2026-02-26T15:50:00.000Z"
+}
